@@ -8,8 +8,8 @@ Version: 0.1
 Author URI: https://www.linkedin.com/in/christophe-ienzer/
 */
 
-require_once plugin_dir_path(__FILE__) . 'assets/function.php'; //gestion des metabox
-require_once plugin_dir_path(__FILE__) . 'assets/columns.php'; //gestion de l'affichage des colonnes dans "toutes les publicités"
+/* Chargement des ressources PHP pour gérer le plugin */
+require_once plugin_dir_path(__FILE__) . 'assets/functions.php'; //gestion des metabox
 require_once plugin_dir_path(__FILE__) . 'assets/widget.php'; //création du widget associé au plugin 
 
 /* Ajout de scripts et de CSS au plugin */
@@ -17,10 +17,12 @@ add_action( 'admin_enqueue_scripts', 'SECRIWFF_enqueue', 11 );
 
 function SECRIWFF_enqueue() {
 
+    wp_register_style( 'style', plugins_url( '/assets/css/style.css', __FILE__) ); //enregistrement du style css
+    wp_enqueue_style('style'); //ajout du style css
+
     global $post_type;
     if ( $post_type == 'regie_publicitaire' ){ //teste si l'on se situe dans le bon post-type
-		wp_register_style( 'style', plugins_url( '/assets/css/style.css', __FILE__) ); //enregistrement du style css
-		wp_enqueue_style('style'); //ajout du style css
+		
 	}
 }
 
