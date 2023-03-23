@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: SECRIWFF
+Plugin Name: Widget Facebook Feed
 Plugin URI: 
 Description: Plugin permettant de générer un widget feed facebook
 Authors: Christophe IENZER
