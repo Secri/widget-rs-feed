@@ -10,7 +10,7 @@ Author URI: https://www.linkedin.com/in/christophe-ienzer/
 
 /* Chargement des ressources PHP pour gérer le plugin */
 require_once plugin_dir_path(__FILE__) . 'assets/functions.php'; //gestion des metabox
-require_once plugin_dir_path(__FILE__) . 'assets/widget.php'; //création du widget associé au plugin 
+//require_once plugin_dir_path(__FILE__) . 'assets/widget.php'; //création du widget associé au plugin 
 
 /* Ajout de scripts et de CSS au plugin */
 add_action( 'admin_enqueue_scripts', 'SECRIWFF_enqueue', 11 );
