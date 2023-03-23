@@ -11,8 +11,13 @@ function Add_secriwff_Admin_Link()
 {
       add_menu_page(
         'Settings page', // Title of the page
-        'Settings', // Text to show on the menu link
+        'Fb widget feed', // Text to show on the menu link
         'manage_options', // Capability requirement to see the link
-        'assets/secriwff-admin-page.php' // The 'slug' - file to display when clicking the link
+        'secriwff-admin-page', // The 'slug' - file to display when clicking the link
+	      	'secriwff_admin_menu_page'
     );
+}
+
+function secriwff_admin_menu_page () {
+	echo "<h1>Hello World!</h1>";
 }
