@@ -14,7 +14,7 @@ function secriwff_settings_init() {
         'secriwff_param_section1', //ID
         __( '', 'secriwff-plugin' ), //titre
 		'secriwff_param_section1_callback', //callback
-        'secriwff_settings' //slug
+        'secriwff_settings'
     );
  
     //ajoute un champ pour la gestion du slug facebook
@@ -22,11 +22,11 @@ function secriwff_settings_init() {
         'secriwff_facebook_slug', //ID
         __( 'Slug de la page facebook', 'secriwff-plugin' ), //titre
         'secriwff_facebook_slug_fct', //callback
-        'secriwff_settings', //slug de la page de paramètres
+        'secriwff_settings',
         'secriwff_param_section1', //section où le champ se trouve
         array(
-            'label_for'         => 'secriwff_facebook_slug',
-            'class'             => 'secriwff_input',
+            'label_for'             => 'secriwff_facebook_slug',
+            'class'                 => 'secriwff_input',
             'secriwff_custom_data' 	=> 'custom',
         )
     );
@@ -36,40 +36,59 @@ function secriwff_settings_init() {
 		'secriwff_content_tabs', //ID
 		__( 'Gestion des onglets de contenu', 'secriwff-plugin' ), //titre
 		'secriwff_content_tabs_fct', //callback
-		'secriwff_settings', //slug de la page de paramètres
+		'secriwff_settings',
 		'secriwff_param_section1', //section où le champ se trouve
 		array(
-            'label_for'         => 'secriwff_content_tabs',
-            'class'             => 'secriwff_input',
+            'label_for'             => 'secriwff_content_tabs',
+            'class'                 => 'secriwff_input',
             'secriwff_custom_data' 	=> 'custom',
         )
 	);
 	
 	//ajoute un champ pour gérer la largeur du widget
-	/*add_settings_field (
+	add_settings_field (
 		'secriwff_widget_width', //ID
 		__( 'Largeur du widget', 'secriwff-plugin' ), //titre
 		'secriwff_widget_width_fct', //callback
 		'secriwff_settings',
 		'secriwff_param_section1',
-		array()
-	);*/
+		array(
+			'label_for'             => 'secriwff_widget_width',
+            'class'                 => 'secriwff_input_nb',
+            'secriwff_custom_data' 	=> 'custom',
+		)
+	);
+	
+	//ajoute un champ pour gérer la hauteur du widget
+	add_settings_field (
+		'secriwff_widget_height', //ID
+		__( 'Hauteur du widget', 'secriwff-plugin' ), //titre
+		'secriwff_widget_height_fct', //callback
+		'secriwff_settings',
+		'secriwff_param_section1',
+		array(
+			'label_for'             => 'secriwff_widget_height',
+            'class'                 => 'secriwff_input_nb',
+            'secriwff_custom_data' 	=> 'custom',
+		)
+	);
 	
 }
  
 /* Fonctions de callback appelée par add_settings_section()*/
 function secriwff_param_section1_callback( $args ) {
     ?>
-    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Gérez l\'affichage du widget facebook.', 'secriwff-plugin' ); ?></p>
+    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Gestion de l\'affichage du widget facebook.', 'secriwff-plugin' ); ?></p>
     <?php
 }
- 
+
 /* Fonctions de callback qui gère l'apparence des champs du formulaire */
 function secriwff_facebook_slug_fct( $args ){
 	$options = get_option('secriwff_options', array()); //récupère les options créées
     //créer un input de texte
 	?>
-    <input  type="text"  
+    <input  type="text" 
+			required="required"
             id="<?php echo esc_attr( $args['label_for'] ); ?>"
 			class="<?php echo esc_attr( $args['class'] ); ?>"
             data-custom="<?php echo esc_attr( $args['secriwff_custom_data'] ); ?>"
@@ -97,7 +116,8 @@ function secriwff_content_tabs_fct( $args ){
 	$options = get_option('secriwff_options', array()); //récupère les options créées
     //créer un input de texte
 	?>
-    <input  type="text"  
+    <input  type="text"
+			required="required"
             id="<?php echo esc_attr( $args['label_for'] ); ?>"
 			class="<?php echo esc_attr( $args['class'] ); ?>"
             data-custom="<?php echo esc_attr( $args['secriwff_custom_data'] ); ?>"
@@ -133,6 +153,61 @@ function secriwff_content_tabs_fct( $args ){
 				
 				echo __( 'Onglet(s) à afficher dans le widget parmi "timeline", "events" et "messages". Choix multiple possible en séparant par des virgules, sans espace.', 'secriwff-plugin' );
 
+			}
+		?>
+	</p>
+	<?php
+}
+
+function secriwff_widget_width_fct( $args ){
+	$options = get_option('secriwff_options', array()); //récupère les options créées
+    //créer un input de texte
+	?>
+    <input type="number"
+		   id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		   class="<?php echo esc_attr( $args['class'] ); ?>"
+           data-custom="<?php echo esc_attr( $args['secriwff_custom_data'] ); ?>"
+           name="secriwff_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		   value="<?php echo isset( $options['secriwff_widget_width'] ) && $options['secriwff_widget_width'] != '' ?  $options['secriwff_widget_width'] : ''; ?>">
+	</input>
+	<p class="description">
+		<?php
+			if (isset ($options['secriwff_widget_width']) && $options['secriwff_widget_width'] != '') {
+				
+				echo __( 'Largeur du widget en pixels : ', 'secriwff-plugin') . $options['secriwff_widget_width'];
+				
+			} else {
+				
+				echo __( 'Entrez la largeur du widget en pixels, si aucune valeur n\'est renseignée la valeur 100% sera appliquée.', 'secriwff-plugin' );
+				
+			}
+		?>
+	</p>
+	<?php
+}
+
+function secriwff_widget_height_fct( $args ){
+	$options = get_option('secriwff_options', array()); //récupère les options créées
+    //créer un input de texte
+	?>
+    <input type="number"
+	       required="required"
+		   id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		   class="<?php echo esc_attr( $args['class'] ); ?>"
+           data-custom="<?php echo esc_attr( $args['secriwff_custom_data'] ); ?>"
+           name="secriwff_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		   value="<?php echo isset( $options['secriwff_widget_height'] ) && $options['secriwff_widget_height'] != '' ?  $options['secriwff_widget_height'] : ''; ?>">
+	</input>
+	<p class="description">
+		<?php
+			if (isset ($options['secriwff_widget_height']) && $options['secriwff_widget_height'] != '') {
+				
+				echo __( 'Hauteur du widget en pixels : ', 'secriwff-plugin') . $options['secriwff_widget_height'];
+				
+			} else {
+				
+				echo __( 'Entrez la hauteur du widget en pixels.', 'secriwff-plugin' );
+				
 			}
 		?>
 	</p>
