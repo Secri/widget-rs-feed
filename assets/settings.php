@@ -14,10 +14,10 @@ function secriwff_settings_init() {
         'secriwff_param_section1', //ID
         __( '', 'secriwff-plugin' ), //titre
 		'secriwff_param_section1_callback', //callback
-        'secriwff_settings' //slug de la page des paramètres déclarée dans add_menu_page()
+        'secriwff_settings' //slug
     );
  
-    //ajoute un nouveau champ pour la gestion du slug facebook
+    //ajoute un champ pour la gestion du slug facebook
 	add_settings_field(
         'secriwff_facebook_slug', //ID
         __( 'Slug de la page facebook', 'secriwff-plugin' ), //titre
@@ -31,7 +31,7 @@ function secriwff_settings_init() {
         )
     );
 	
-	//ajoute un nouveau champ pour la gestion du contenu à afficher dans le widget
+	//ajoute un champ pour la gestion du contenu à afficher dans le widget
 	add_settings_field (
 		'secriwff_content_tabs', //ID
 		__( 'Gestion des onglets de contenu', 'secriwff-plugin' ), //titre
@@ -44,6 +44,16 @@ function secriwff_settings_init() {
             'secriwff_custom_data' 	=> 'custom',
         )
 	);
+	
+	//ajoute un champ pour gérer la largeur du widget
+	/*add_settings_field (
+		'secriwff_widget_width', //ID
+		__( 'Largeur du widget', 'secriwff-plugin' ), //titre
+		'secriwff_widget_width_fct', //callback
+		'secriwff_settings',
+		'secriwff_param_section1',
+		array()
+	);*/
 	
 }
  
@@ -103,7 +113,7 @@ function secriwff_content_tabs_fct( $args ){
 				if ( count($contentOptions) < 2 ) {
 					echo __( 'Le Widget affichera uniquement cet onglet : ', 'secriwff-plugin');
 				} else { 
-					echo __( 'Les onglets affichés dans le widget seront dans l\'ordre : ', 'secriwff-plugin');
+					echo __( 'Les onglets affichés dans le widget seront, dans l\'ordre : ', 'secriwff-plugin');
 				}
 							
 				for($i = 0; $i < count($contentOptions); $i++){
@@ -154,18 +164,18 @@ function charge_settings_fct() {
  
     //vérifie que l'utilisateur a passé des paramètres
     if ( isset( $_GET['settings-updated'] ) ) {
-        add_settings_error( 'secriwff_settings', 'secriwff_check_settings_content', __( 'Paramètres sauvegardés', 'secriwff-plugin' ), 'updated' ); //affiche un message pour confirmer l'enregistrement des paramètres
+        add_settings_error( 'secriwff_settings_msg', 'secriwff_check_settings_content', __( 'Paramètres sauvegardés', 'secriwff-plugin' ), 'updated' ); //affiche un message pour confirmer l'enregistrement des paramètres
     }
- 
-    settings_errors( 'secriwff_check_settings_content' ); //affiche les messages d'actualisation ou d'erreur
+    settings_errors( 'secriwff_settings_msg' ); //affiche les messages d'actualisation ou d'erreur
+	
     //affiche le contenu de la page ?>
     <div class="wrap">
         <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
         <form action="options.php" method="post">
             <?php 
-            settings_fields( 'secriwff_settings' ); //affiche les encards de paramètres créés plus tôt
-            do_settings_sections( 'secriwff_settings' ); //affiche les sections de paramètres
-            submit_button( 'Enregistrer' ); //affiche un bouton de sauvegarde
+				settings_fields( 'secriwff_settings' ); //affiche les encards de paramètres créés plus tôt
+				do_settings_sections( 'secriwff_settings' ); //affiche les sections de paramètres
+				submit_button( 'Enregistrer' ); //affiche un bouton de sauvegarde
             ?>
         </form>
     </div>
