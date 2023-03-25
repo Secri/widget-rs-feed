@@ -100,16 +100,28 @@ function secriwff_content_tabs_fct( $args ){
 			if (isset ($options['secriwff_content_tabs']) && $options['secriwff_content_tabs'] != '') {
 				
 				$contentOptions = explode(',', $options['secriwff_content_tabs'], 3);
-				
-				foreach ($contentOptions as $option) {
-					echo $option . '';
+				if ( count($contentOptions) < 2 ) {
+					echo __( 'Le Widget affichera uniquement cet onglet : ', 'secriwff-plugin');
+				} else { 
+					echo __( 'Les onglets affichés dans le widget seront dans l\'ordre : ', 'secriwff-plugin');
 				}
-				
-				echo __( 'Les onglets affichés dans le widget seront : ', 'secriwff-plugin') . $options['secriwff_content_tabs'];
+							
+				for($i = 0; $i < count($contentOptions); $i++){
+					
+						?>
+							<input type ="text"
+								   class="<?php echo esc_attr( $args['class'] ); ?>"
+								   value="<?php echo $contentOptions[$i] ?>"
+								   disabled>
+							</input>
+							&nbsp;
+						<?php
+					
+				}
 				
 			} else {
 				
-				echo __( 'Onglet(s) à afficher dans le widget parmi "timeline", "events" et "messages". Choix multiple possible en séparant par une virgule', 'secriwff-plugin' );
+				echo __( 'Onglet(s) à afficher dans le widget parmi "timeline", "events" et "messages". Choix multiple possible en séparant par des virgules, sans espace.', 'secriwff-plugin' );
 
 			}
 		?>
