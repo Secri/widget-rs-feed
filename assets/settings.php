@@ -5,56 +5,116 @@ add_action( 'admin_init', 'secriwff_settings_init' );
  
 /*Options et paramètres personnalisés*/
 function secriwff_settings_init() {
-    //enregistre un nouveau paramètre
+    
+	//enregistre un nouveau paramètre
     register_setting( 'secriwff_settings', 'secriwff_options' );
  
     //enregistre une nouvelle section de paramètres
     add_settings_section(
         'secriwff_param_section1', //ID
-        __( 'Paramètres', 'secriwff-plugin' ), //titre
+        __( '', 'secriwff-plugin' ), //titre
 		'secriwff_param_section1_callback', //callback
         'secriwff_settings' //slug de la page des paramètres déclarée dans add_menu_page()
     );
  
-    //ajoute un nouveau champs de paramètre
+    //ajoute un nouveau champ pour la gestion du slug facebook
 	add_settings_field(
-        'secriwff_param_test', //ID
-        __( 'Paramètre de test', 'secriwff-plugin' ), //titre
-        'secriwff_param_test_fct', //callback
+        'secriwff_facebook_slug', //ID
+        __( 'Slug de la page facebook', 'secriwff-plugin' ), //titre
+        'secriwff_facebook_slug_fct', //callback
         'secriwff_settings', //slug de la page de paramètres
         'secriwff_param_section1', //section où le champ se trouve
         array(
-            'label_for'         => 'secriwff_param_test1',
+            'label_for'         => 'secriwff_facebook_slug',
             'class'             => 'secriwff_input',
             'secriwff_custom_data' 	=> 'custom',
         )
     );
 	
+	//ajoute un nouveau champ pour la gestion du contenu à afficher dans le widget
+	add_settings_field (
+		'secriwff_content_tabs', //ID
+		__( 'Gestion des onglets de contenu', 'secriwff-plugin' ), //titre
+		'secriwff_content_tabs_fct', //callback
+		'secriwff_settings', //slug de la page de paramètres
+		'secriwff_param_section1', //section où le champ se trouve
+		array(
+            'label_for'         => 'secriwff_content_tabs',
+            'class'             => 'secriwff_input',
+            'secriwff_custom_data' 	=> 'custom',
+        )
+	);
+	
 }
  
-/* Fonction de callback appelée par add_settings_section()*/
+/* Fonctions de callback appelée par add_settings_section()*/
 function secriwff_param_section1_callback( $args ) {
     ?>
-    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Section de réglage du widget.', 'secriwff-plugin' ); ?></p>
+    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Gérez l\'affichage du widget facebook.', 'secriwff-plugin' ); ?></p>
     <?php
 }
  
-/* Fonctions qui affichent l'encard de texte pour y entrer son paramètre */
-function secriwff_param_test_fct( $args ){
+/* Fonctions de callback qui gère l'apparence des champs du formulaire */
+function secriwff_facebook_slug_fct( $args ){
 	$options = get_option('secriwff_options', array()); //récupère les options créées
-    //créer un input de texte pour y entrer la taxonomie voulue
+    //créer un input de texte
 	?>
     <input  type="text"  
             id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
             data-custom="<?php echo esc_attr( $args['secriwff_custom_data'] ); ?>"
             name="secriwff_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-			placeholder="category"
-			value="<?php echo isset( $options['secriwff_param_test'] ) && $options['secriwff_param_test'] != '' ?  $options['secriwff_param_test'] : 'truc de test'; ?>">
+			placeholder="Slug"
+			value="<?php echo isset( $options['secriwff_facebook_slug'] ) && $options['secriwff_facebook_slug'] != '' ?  $options['secriwff_facebook_slug'] : ''; ?>">
     </input>
     <p class="description">
-        <?php esc_html_e( 'Entrez un truc de test', 'secri-plugin' ); ?>
+		<?php
+			if (isset ($options['secriwff_facebook_slug']) && $options['secriwff_facebook_slug'] != '') {
+				
+				echo __( 'L\'adresse de la page sera https://www.facebook.com/', 'secriwff-plugin') . $options['secriwff_facebook_slug'];
+				
+			} else {
+				
+				echo __( 'Entrez le slug de la page facebook, sous cette forme là : ', 'secriwff-plugin' ); ?> https://www.facebook.com/<b>slug</b> <?php
+				
+			}
+		?>
     </p>
     <?php
+}
+
+function secriwff_content_tabs_fct( $args ){
+	$options = get_option('secriwff_options', array()); //récupère les options créées
+    //créer un input de texte
+	?>
+    <input  type="text"  
+            id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+            data-custom="<?php echo esc_attr( $args['secriwff_custom_data'] ); ?>"
+            name="secriwff_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			placeholder="Onglets de contenu"
+			value="<?php echo isset( $options['secriwff_content_tabs'] ) && $options['secriwff_content_tabs'] != '' ?  $options['secriwff_content_tabs'] : ''; ?>">
+    </input>
+	<p class="description">
+		<?php
+			if (isset ($options['secriwff_content_tabs']) && $options['secriwff_content_tabs'] != '') {
+				
+				$contentOptions = explode(',', $options['secriwff_content_tabs'], 3);
+				
+				foreach ($contentOptions as $option) {
+					echo $option . '';
+				}
+				
+				echo __( 'Les onglets affichés dans le widget seront : ', 'secriwff-plugin') . $options['secriwff_content_tabs'];
+				
+			} else {
+				
+				echo __( 'Onglet(s) à afficher dans le widget parmi "timeline", "events" et "messages". Choix multiple possible en séparant par une virgule', 'secriwff-plugin' );
+
+			}
+		?>
+	</p>
+	<?php
 }
 
 
@@ -65,7 +125,7 @@ add_action( 'admin_menu', 'Add_secriwff_Admin_Link' );
 function Add_secriwff_Admin_Link()
 {
       add_menu_page(
-        'Settings page', // Title of the page
+        __('Paramètres de l\'extension', 'secriwff-plugin'), // Title of the page
         'Fb widget feed', // Text to show on the menu link
         'manage_options', // Capability requirement to see the link
         'secriwff_settings_page', // Le slug de la page du menu
