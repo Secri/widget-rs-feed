@@ -1,2 +1,2 @@
 # widget-fb-feed
-Plugin Wordpress simple pour générer un widget feed facebook et gérer son affichage en front en fonction des post types.
+Plugin Wordpress minimaliste pour le site CCI89.fr permettant de générer un widget timelilne Twitter.
