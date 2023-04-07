@@ -90,7 +90,7 @@ class secritwf_widget extends WP_Widget {
 
 	/*Gestion de l'affichage des options sur le backoffice */
 	public function form( $instance ) {
-        _e('<br>Ce widget est automatique et ne nécessite pas de paramètres.', 'rpjp-plugin');
+        _e('<br>Ce widget est automatique et ne nécessite pas de paramètres.', 'secritwf-plugin');
 	}
 	
 	public function update( $new_instance, $old_instance ) {
