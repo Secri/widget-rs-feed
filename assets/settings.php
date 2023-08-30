@@ -6,10 +6,61 @@ add_action( 'admin_init', 'secritwf_settings_init' );
 /*Options et paramètres personnalisés*/
 function secritwf_settings_init() {
     
-	//enregistre un nouveau paramètre
+	//enregistre une nouvelle zone de paramétrage
     register_setting( 'secritwf_settings', 'secritwf_options' );
  
-    //enregistre une nouvelle section de paramètres
+    
+	//enregistre la section des paramètres d'affichage
+	add_settings_section(
+        'secritwf_param_section0', //ID
+        __( '', 'secritwf-plugin' ), //titre
+		'secritwf_param_section0_callback', //callback
+        'secritwf_settings'
+    );
+	
+	//ajoute un champ pour sélectionner la plateforme sociale
+	add_settings_field(
+		'secritwf_rs_plateform', //ID
+		__( 'Sélectionnez une plateforme', 'secritwf-plugin'), //titre
+		'secritwf_rs_plateform_fct', //callback
+		'secritwf_settings', //nom de l'option
+		'secritwf_param_section0', //section où le champ se trouve
+		 array(
+            'label_for'             => 'secritwf_rs_plateform',
+            'class'                 => 'secritwf_select',
+            'secritwf_custom_data' 	=> 'custom',
+        )	
+	);	
+		
+	//ajoute un champ pour sélectionner la taxonomie mère
+	add_settings_field(
+		'secritwf_main_taxo', //ID
+		__( 'Choisissez une taxonomie', 'secritwf-plugin'), //titre
+		'secritwf_main_taxo_fct', //callback
+		'secritwf_settings', //nom de l'option
+		'secritwf_param_section0', //section où le champ se trouve
+		 array(
+            'label_for'             => 'secritwf_main_taxo',
+            'class'                 => 'secritwf_select',
+            'secritwf_custom_data' 	=> 'custom',
+        )	
+	);	
+	//ajoute un champ pour spécifier le terme de la taxonomie qui gèrera l'affichage
+	add_settings_field(
+		'secritwf_parent_term', //ID
+		__( 'Entrez le terme parent', 'secritwf-plugin'), //titre
+		'secritwf_parent_term_fct', //callback
+		'secritwf_settings', //nom de l'option
+		'secritwf_param_section0', //section où le champ se trouve
+		 array(
+            'label_for'             => 'secritwf_parent_term',
+            'class'                 => 'secritwf_input',
+            'secritwf_custom_data' 	=> 'custom',
+        )	
+	);
+	
+	
+	//enregistre une nouvelle section de paramètres
     add_settings_section(
         'secritwf_param_section1', //ID
         __( '', 'secritwf-plugin' ), //titre
@@ -43,38 +94,65 @@ function secritwf_settings_init() {
             'secritwf_custom_data' 	=> 'custom',
         )	
 	);		
-	//ajoute un champ pour sélectionner la taxonomie mère
+		
+	//enregistre une nouvelle section de paramètres pour Linkedin
+    add_settings_section(
+        'secritwf_param_section2', //ID
+        __( '', 'secritwf-plugin' ), //titre
+		'secritwf_param_section2_callback', //callback
+        'secritwf_settings'
+    );
+	
+	//ajoute un champ texte pour la partie HTML
 	add_settings_field(
-		'secritwf_main_taxo', //ID
-		__( 'Choisissez une taxonomie', 'secritwf-plugin'), //titre
-		'secritwf_main_taxo_fct', //callback
+		'secritwf_linkedin_html', //ID
+		__( 'Entrez le code HTML du widget', 'secritwf-plugin'), //titre
+		'secritwf_linkedin_html_fct', //callback
 		'secritwf_settings', //nom de l'option
-		'secritwf_param_section1', //section où le champ se trouve
+		'secritwf_param_section2', //section où le champ se trouve
 		 array(
-            'label_for'             => 'secritwf_main_taxo',
-            'class'                 => 'secritwf_select',
-            'secritwf_custom_data' 	=> 'custom',
-        )	
-	);	
-	//ajoute un champ pour spécifier le terme de la taxonomie qui gèrera l'affichage
-	add_settings_field(
-		'secritwf_parent_term', //ID
-		__( 'Entrez le terme parent', 'secritwf-plugin'), //titre
-		'secritwf_parent_term_fct', //callback
-		'secritwf_settings', //nom de l'option
-		'secritwf_param_section1', //section où le champ se trouve
-		 array(
-            'label_for'             => 'secritwf_parent_term',
+            'label_for'             => 'secritwf_linkedin_html',
             'class'                 => 'secritwf_input',
             'secritwf_custom_data' 	=> 'custom',
-        )	
+        )
+		
+	);
+	
+	//ajoute un champ texte pour l'appel javascript
+	add_settings_field(
+		'secritwf_linkedin_js', //ID
+		__( 'Entrez le code js du widget', 'secritwf-plugin'), //titre
+		'secritwf_linkedin_js_fct', //callback
+		'secritwf_settings', //nom de l'option
+		'secritwf_param_section2', //section où le champ se trouve
+		 array(
+            'label_for'             => 'secritwf_linkedin_js',
+            'class'                 => 'secritwf_input',
+            'secritwf_custom_data' 	=> 'custom',
+        )
+		
 	);
 }
  
 /* Fonctions de callback appelée par add_settings_section()*/
+function secritwf_param_section0_callback( $args ) {
+    ?>
+		<hr/>
+		<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Paramétres d\'affichage', 'secritwf-plugin' ); ?></p>
+    <?php
+}
+
 function secritwf_param_section1_callback( $args ) {
     ?>
+		<hr/>
 		<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Paramétrage du widget Twitter.', 'secritwf-plugin' ); ?></p>
+    <?php
+}
+
+function secritwf_param_section2_callback( $args ) {
+    ?>
+		<hr/>
+		<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Paramétrage du widget Linkedin.', 'secritwf-plugin' ); ?></p>
     <?php
 }
 
@@ -118,7 +196,7 @@ function secritwf_twitter_maxpost_fct( $args ){
            data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
 		   value="<?php echo isset( $options['secritwf_twitter_maxpost'] ) && $options['secritwf_twitter_maxpost'] != '' ?  $options['secritwf_twitter_maxpost'] : ''; ?>"
-		   min='1' max='20'>
+		   min='1'>
 	</input>
 	<p class="description">
 		<?php
@@ -182,6 +260,62 @@ function secritwf_main_taxo_fct( $args ){
 	<?php
 }
 
+function secritwf_rs_plateform_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+	$socialNetworks = ['X', 'Linkedin'];
+	?>
+	<select id="<?php echo esc_attr( $args['label_for'] ); ?>"
+	        required="required"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+			data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
+			
+				<?php
+						if (isset ($options['secritwf_rs_plateform']) && $options['secritwf_rs_plateform'] != '') {
+							
+							$selected_option = __('Plateforme sélectionnée','secritwf-plugin');
+							
+							echo '<optgroup label="' . $selected_option . '">';
+							
+							echo '<option value=' . $options['secritwf_rs_plateform'] . '>' . $options['secritwf_rs_plateform'] . '</option>';
+							
+							echo '</optgroup>';
+						
+						} else {
+							
+							echo '<option value="">-- Choisissez un réseau social --</option>';
+							
+						}
+				?>
+				<optgroup label="Plateforme(s) disponible(s)">
+					<?php
+						foreach ($socialNetworks as $network) {
+							if($network != $options['secritwf_rs_plateform']) {
+								echo '<option value=' . $network . '>'  . $network .  '</option>';
+							}
+						}
+					?>
+				</optgroup>
+	</select>
+	<p class="description">
+		<?php
+					
+			if (isset ($options['secritwf_rs_plateform']) && $options['secritwf_rs_plateform'] != '') {
+				
+				echo __( 'Vous affichez le widget de la plateforme ', 'secritwf-plugin') . $options['secritwf_rs_plateform'];
+				
+			} else {
+				
+				echo __( 'Choisissez la plateforme sociale que vous souhaitez utiliser', 'secritwf-plugin' );
+				
+			}
+		
+		?>
+			
+	</p>
+	<?php
+}
+
 function secritwf_parent_term_fct( $args ){
 	$options = get_option('secritwf_options', array()); //récupère les options créées
     //crée un input de texte
@@ -211,6 +345,54 @@ function secritwf_parent_term_fct( $args ){
     <?php
 }
 
+function secritwf_linkedin_html_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+    //crée un input de texte
+	?>
+    <input  type="text" 
+			required="required"
+            id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+            data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			placeholder="Code HTML du widget"
+			style="width:500px"
+			value="<?php echo isset( $options['secritwf_linkedin_html'] ) && $options['secritwf_linkedin_html'] != '' ?  $options['secritwf_linkedin_html'] : ''; ?>">
+    </input>
+    <p class="description">
+		<?php
+		
+			echo __( 'Entrez le code HTML du widget fourni par votre plateforme social media', 'secritwf-plugin' );
+				
+		?>
+    </p>
+    <?php
+}
+
+function secritwf_linkedin_js_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+    //crée un input de texte
+	?>
+    <input  type="text" 
+			required="required"
+            id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+            data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			placeholder="Code Javascript du widget"
+			style="width:500px"
+			value="<?php echo isset( $options['secritwf_linkedin_js'] ) && $options['secritwf_linkedin_js'] != '' ?  $options['secritwf_linkedin_js'] : ''; ?>">
+    </input>
+    <p class="description">
+		<?php
+		
+			echo __( 'Entrez le code Javascript d\'appel fourni par votre plateforme social media', 'secritwf-plugin' );
+				
+		?>
+    </p>
+    <?php
+}
+
 // Hook the 'admin_menu' action hook
 add_action( 'admin_menu', 'Add_secritwf_Admin_Link' );
  
@@ -219,11 +401,11 @@ function Add_secritwf_Admin_Link()
 {
       add_menu_page(
         __('Paramètres de l\'extension', 'secritwf-plugin'), // Title of the page
-        'Twitter feed', // Text to show on the menu link
+        'Social Feed', // Text to show on the menu link
         'manage_options', // Capability requirement to see the link
         'secritwf_settings_page', // Le slug de la page du menu
 		'charge_settings_fct',
-		'dashicons-twitter'
+		'dashicons-networking'
     );
 }
 
