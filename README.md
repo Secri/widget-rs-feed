@@ -1,2 +1,2 @@
 # widget-fb-feed
-Plugin Wordpress minimaliste permettant de générer un widget timeline Twitter et de l'afficher en tant que widget.
+Plugin Wordpress minimaliste permettant de générer un widget affichant la timeline de différentes plateformes socialmedia
