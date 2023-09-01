@@ -357,7 +357,7 @@ function secritwf_linkedin_html_fct( $args ){
             name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
 			placeholder="Code HTML du widget"
 			style="width:500px"
-			value="<?php echo isset( $options['secritwf_linkedin_html'] ) && $options['secritwf_linkedin_html'] != '' ?  $options['secritwf_linkedin_html'] : ''; ?>">
+			value="<?php echo isset( $options['secritwf_linkedin_html'] ) && $options['secritwf_linkedin_html'] != '' ?  esc_attr( $options['secritwf_linkedin_html'] ) : ''; ?>">
     </input>
     <p class="description">
 		<?php
@@ -381,7 +381,7 @@ function secritwf_linkedin_js_fct( $args ){
             name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
 			placeholder="Code Javascript du widget"
 			style="width:500px"
-			value="<?php echo isset( $options['secritwf_linkedin_js'] ) && $options['secritwf_linkedin_js'] != '' ?  $options['secritwf_linkedin_js'] : ''; ?>">
+			value="<?php echo isset( $options['secritwf_linkedin_js'] ) && $options['secritwf_linkedin_js'] != '' ? esc_attr( $options['secritwf_linkedin_js'] ) : ''; ?>">
     </input>
     <p class="description">
 		<?php
