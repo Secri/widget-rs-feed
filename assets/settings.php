@@ -58,7 +58,7 @@ function secritwf_settings_init() {
             'secritwf_custom_data' 	=> 'custom',
         )	
 	);
-
+	
 	//ajoute un champ HTML libre pour personnaliser le titre du widget
 	add_settings_field (
 		'secrirsf_widget_title', //ID de paramètres
@@ -170,109 +170,6 @@ function secritwf_param_section2_callback( $args ) {
 }
 
 /* Fonctions de callback qui gèrent les champs du formulaire */
-function secritwf_twitter_slug_fct( $args ){
-	$options = get_option('secritwf_options', array()); //récupère les options créées
-    //crée un input de texte
-	?>
-    <input  type="text" 
-			required="required"
-            id="<?php echo esc_attr( $args['label_for'] ); ?>"
-			class="<?php echo esc_attr( $args['class'] ); ?>"
-            data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
-            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-			placeholder="Slug de la page"
-			value="<?php echo isset( $options['secritwf_twitter_slug'] ) && $options['secritwf_twitter_slug'] != '' ?  $options['secritwf_twitter_slug'] : ''; ?>">
-    </input>
-    <p class="description">
-		<?php
-			if (isset ($options['secritwf_twitter_slug']) && $options['secritwf_twitter_slug'] != '') {
-				
-				echo __( 'L\'adresse de la page sera https://www.twitter.com/', 'secritwf-plugin') . $options['secritwf_twitter_slug'];
-				
-			} else {
-				
-				echo __( 'Entrez le slug de la page Twitter, sous cette forme là : ', 'secritwf-plugin' ); ?> https://www.twitter.com/<b>slug</b> <?php
-				
-			}
-		?>
-    </p>
-    <?php
-}
-
-function secritwf_twitter_maxpost_fct( $args ){
-	$options = get_option('secritwf_options', array()); //récupère les options créées
-    //créer un input de texte
-	?>
-    <input type="number"
-		   id="<?php echo esc_attr( $args['label_for'] ); ?>"
-		   class="<?php echo esc_attr( $args['class'] ); ?>"
-           data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
-           name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-		   value="<?php echo isset( $options['secritwf_twitter_maxpost'] ) && $options['secritwf_twitter_maxpost'] != '' ?  $options['secritwf_twitter_maxpost'] : ''; ?>"
-		   min='1'>
-	</input>
-	<p class="description">
-		<?php
-			if (isset ($options['secritwf_twitter_maxpost']) && $options['secritwf_twitter_maxpost'] != '') {
-				
-				echo __( 'Nombre de posts affichés: ', 'secritwf-plugin') . $options['secritwf_twitter_maxpost'];
-				
-			} else {
-				
-				echo __( 'Entrez le nombre de posts qui s\'afficheront dans le widget.', 'secritwf-plugin' );
-				
-			}
-		?>
-	</p>
-	<?php
-}
-
-function secritwf_main_taxo_fct( $args ){
-	$options = get_option('secritwf_options', array()); //récupère les options créées
-	$all_taxo = get_taxonomies(array(),'names');
-    //créer un select
-	?>
-    <select id="<?php echo esc_attr( $args['label_for'] ); ?>"
-	        required="required"
-			class="<?php echo esc_attr( $args['class'] ); ?>"
-			data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
-            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
-			
-				<?php
-						if (isset ($options['secritwf_main_taxo']) && $options['secritwf_main_taxo'] != '') {
-							
-							$selected_option = __('Taxonomie sélectionnée','secritwf-plugin');
-							
-							echo '<optgroup label="' . $selected_option . '">';
-							
-							echo '<option value=' . $options['secritwf_main_taxo'] . '>' . $options['secritwf_main_taxo'] . '</option>';
-							
-							echo '</optgroup>';
-						
-						} else {
-							
-							echo '<option value="">-- Choisissez une option --</option>';
-							
-						}
-				?>
-				<optgroup label="Taxonomies disponibles">
-					<?php
-						foreach ($all_taxo as $taxo) {
-							if($taxo != $options['secritwf_main_taxo']) {
-								echo '<option value=' . $taxo . '>'  . $taxo .  '</option>';
-							}
-						}
-					?>
-				</optgroup>
-	</select>
-	<p class="description">
-		<?php
-			echo __( 'Choisissez la taxonomie du terme parent', 'secritwf-plugin' );
-		?>
-	</p>
-	<?php
-}
-
 function secritwf_rs_plateform_fct( $args ){
 	$options = get_option('secritwf_options', array()); //récupère les options créées
 	$socialNetworks = ['X', 'Linkedin'];
@@ -325,6 +222,52 @@ function secritwf_rs_plateform_fct( $args ){
 		
 		?>
 			
+	</p>
+	<?php
+}
+
+function secritwf_main_taxo_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+	$all_taxo = get_taxonomies(array(),'names');
+    //créer un select
+	?>
+    <select id="<?php echo esc_attr( $args['label_for'] ); ?>"
+	        required="required"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+			data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
+			
+				<?php
+						if (isset ($options['secritwf_main_taxo']) && $options['secritwf_main_taxo'] != '') {
+							
+							$selected_option = __('Taxonomie sélectionnée','secritwf-plugin');
+							
+							echo '<optgroup label="' . $selected_option . '">';
+							
+							echo '<option value=' . $options['secritwf_main_taxo'] . '>' . $options['secritwf_main_taxo'] . '</option>';
+							
+							echo '</optgroup>';
+						
+						} else {
+							
+							echo '<option value="">-- Choisissez une option --</option>';
+							
+						}
+				?>
+				<optgroup label="Taxonomies disponibles">
+					<?php
+						foreach ($all_taxo as $taxo) {
+							if($taxo != $options['secritwf_main_taxo']) {
+								echo '<option value=' . $taxo . '>'  . $taxo .  '</option>';
+							}
+						}
+					?>
+				</optgroup>
+	</select>
+	<p class="description">
+		<?php
+			echo __( 'Choisissez la taxonomie du terme parent', 'secritwf-plugin' );
+		?>
 	</p>
 	<?php
 }
@@ -382,6 +325,65 @@ function secrirsf_widget_title_fct( $args ){
     <?php
 }
 
+//Paramètres Twitter
+function secritwf_twitter_slug_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+    //crée un input de texte
+	?>
+    <input  type="text" 
+			required="required"
+            id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+            data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			placeholder="Slug de la page"
+			value="<?php echo isset( $options['secritwf_twitter_slug'] ) && $options['secritwf_twitter_slug'] != '' ?  $options['secritwf_twitter_slug'] : ''; ?>">
+    </input>
+    <p class="description">
+		<?php
+			if (isset ($options['secritwf_twitter_slug']) && $options['secritwf_twitter_slug'] != '') {
+				
+				echo __( 'L\'adresse de la page sera https://www.twitter.com/', 'secritwf-plugin') . $options['secritwf_twitter_slug'];
+				
+			} else {
+				
+				echo __( 'Entrez le slug de la page Twitter, sous cette forme là : ', 'secritwf-plugin' ); ?> https://www.twitter.com/<b>slug</b> <?php
+				
+			}
+		?>
+    </p>
+    <?php
+}
+
+function secritwf_twitter_maxpost_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+    //créer un input de texte
+	?>
+    <input type="number"
+		   id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		   class="<?php echo esc_attr( $args['class'] ); ?>"
+           data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+           name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		   value="<?php echo isset( $options['secritwf_twitter_maxpost'] ) && $options['secritwf_twitter_maxpost'] != '' ?  $options['secritwf_twitter_maxpost'] : ''; ?>"
+		   min='1'>
+	</input>
+	<p class="description">
+		<?php
+			if (isset ($options['secritwf_twitter_maxpost']) && $options['secritwf_twitter_maxpost'] != '') {
+				
+				echo __( 'Nombre de posts affichés: ', 'secritwf-plugin') . $options['secritwf_twitter_maxpost'];
+				
+			} else {
+				
+				echo __( 'Entrez le nombre de posts qui s\'afficheront dans le widget.', 'secritwf-plugin' );
+				
+			}
+		?>
+	</p>
+	<?php
+}
+
+// Paramètres Linkedin
 function secritwf_linkedin_html_fct( $args ){
 	$options = get_option('secritwf_options', array()); //récupère les options créées
     //crée un input de texte
