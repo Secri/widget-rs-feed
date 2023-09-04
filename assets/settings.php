@@ -58,7 +58,20 @@ function secritwf_settings_init() {
             'secritwf_custom_data' 	=> 'custom',
         )	
 	);
-	
+
+	//ajoute un champ HTML libre pour personnaliser le titre du widget
+	add_settings_field (
+		'secrirsf_widget_title', //ID de paramètres
+		__( 'Titre du widget', 'secritwf-plugin'), //titre
+		'secrirsf_widget_title_fct', //callback
+		'secritwf_settings', //nom de l'option
+		'secritwf_param_section0', //section où le champ se trouve
+		 array(
+            'label_for'             => 'secrirsf_widget_title',
+            'class'                 => 'secritwf_input',
+            'secritwf_custom_data' 	=> 'custom',
+        )	
+	);	
 	
 	//enregistre une nouvelle section de paramètres
     add_settings_section(
@@ -340,6 +353,30 @@ function secritwf_parent_term_fct( $args ){
 				echo __( 'Entrez un terme parent pour gérer l\'affichage du widget', 'secritwf-plugin' );
 				
 			}
+		?>
+    </p>
+    <?php
+}
+
+// Champ HTML personnalisé pour le titre du widget
+function secrirsf_widget_title_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+    //crée un input de texte
+	?>
+    <input  type="text" 
+			id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+            data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			placeholder="Code HTML du titre de votre widget"
+			style="width:500px"
+			value="<?php echo isset( $options['secrirsf_widget_title'] ) && $options['secrirsf_widget_title'] != '' ?  esc_attr( $options['secrirsf_widget_title'] ) : ''; ?>">
+    </input>
+    <p class="description">
+		<?php
+		
+			echo __( 'Entrez le code HTML du titre qui s\'affichera au dessus de votre widget', 'secritwf-plugin' );
+				
 		?>
     </p>
     <?php
