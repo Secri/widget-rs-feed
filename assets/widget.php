@@ -80,6 +80,9 @@ class secritwf_widget extends WP_Widget {
 	private function secritwf_display_the_widget() { // Crée l'ensemble de la pub et l'affiche dans le widget en fonction de l'ID du cpt regie_publicitaire
 		
 		$options = get_option( 'secritwf_options', array() ); //on récupère les données de la page d'options
+
+		echo isset( $options['secrirsf_widget_title'] ) && $options['secrirsf_widget_title'] != '' ? $options['secrirsf_widget_title'] : ''; //affichage conditionnel du titre
+							
 		switch ( $options['secritwf_rs_plateform'] ) {
 			
 			case 'X':
