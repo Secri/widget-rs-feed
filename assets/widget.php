@@ -68,8 +68,8 @@ class secritwf_widget extends WP_Widget {
 		unset( $secritwf_child_terms_id_array );
 		unset($secritwf_tempo); 
 		
-		//Si un terme de taxonomie est commun entre la page en front et les enfants du terme parent
-		if( $display_widget === true ){
+		//Si un terme de taxonomie est commun entre la page en front et les enfants du terme parent et qu'une plateforme a été sélectionnée
+		if( $display_widget === true && isset ( $options['secritwf_rs_plateform'] ) && $options['secritwf_rs_plateform'] != '' ){
 			$this->secritwf_display_the_widget();
 		}
 		
