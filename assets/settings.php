@@ -331,7 +331,6 @@ function secritwf_twitter_slug_fct( $args ){
     //crée un input de texte
 	?>
     <input  type="text"
-			<?php echo isset ( $options['secritwf_rs_plateform'] ) && $options['secritwf_rs_plateform'] === 'X' ? 'required' : ''; ?>
 			id="<?php echo esc_attr( $args['label_for'] ); ?>"
 			class="<?php echo esc_attr( $args['class'] ); ?>"
             data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
@@ -389,8 +388,7 @@ function secritwf_linkedin_html_fct( $args ){
     //crée un input de texte
 	?>
     <input  type="text" 
-			<?php echo isset ( $options['secritwf_rs_plateform'] ) && $options['secritwf_rs_plateform'] === 'Linkedin' ? 'required' : ''; ?>
-            id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			id="<?php echo esc_attr( $args['label_for'] ); ?>"
 			class="<?php echo esc_attr( $args['class'] ); ?>"
             data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
             name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
@@ -413,8 +411,7 @@ function secritwf_linkedin_js_fct( $args ){
     //crée un input de texte
 	?>
     <input  type="text" 
-			<?php echo isset ( $options['secritwf_rs_plateform'] ) && $options['secritwf_rs_plateform'] === 'Linkedin' ? 'required' : ''; ?>
-            id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			id="<?php echo esc_attr( $args['label_for'] ); ?>"
 			class="<?php echo esc_attr( $args['class'] ); ?>"
             data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
             name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
