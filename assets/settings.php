@@ -73,7 +73,8 @@ function secritwf_settings_init() {
         )	
 	);	
 	
-	//enregistre une nouvelle section de paramètres
+	/**************************************************************/	
+	// Enregistre une section de paramètres pour Twitter
     add_settings_section(
         'secritwf_param_section1', //ID
         __( '', 'secritwf-plugin' ), //titre
@@ -106,9 +107,25 @@ function secritwf_settings_init() {
             'class'                 => 'secritwf_input',
             'secritwf_custom_data' 	=> 'custom',
         )	
-	);		
+	);
+
+	//ajoute un champ texte pour l'appel javascript
+	add_settings_field(
+		'secritwf_twitter_js', //ID
+		__( 'Entrez l\'URL de la ressource', 'secritwf-plugin'), //titre
+		'secritwf_twitter_js_fct', //callback
+		'secritwf_settings', //nom de l'option
+		'secritwf_param_section1', //section où le champ se trouve
+		 array(
+            'label_for'             => 'secritwf_twitter_js',
+            'class'                 => 'secritwf_input',
+            'secritwf_custom_data' 	=> 'custom',
+        )
 		
-	//enregistre une nouvelle section de paramètres pour Linkedin
+	);
+	
+	/**************************************************************/	
+	// Enregistre une section de paramètres pour Linkedin
     add_settings_section(
         'secritwf_param_section2', //ID
         __( '', 'secritwf-plugin' ), //titre
@@ -134,7 +151,7 @@ function secritwf_settings_init() {
 	//ajoute un champ texte pour l'appel javascript
 	add_settings_field(
 		'secritwf_linkedin_js', //ID
-		__( 'Entrez le code js du widget', 'secritwf-plugin'), //titre
+		__( 'Entrez l\'URL de la ressource', 'secritwf-plugin'), //titre
 		'secritwf_linkedin_js_fct', //callback
 		'secritwf_settings', //nom de l'option
 		'secritwf_param_section2', //section où le champ se trouve
@@ -354,6 +371,7 @@ function secritwf_twitter_slug_fct( $args ){
     <?php
 }
 
+/* Callback pour gérer le nombre de posts dans le widget Twitter*/
 function secritwf_twitter_maxpost_fct( $args ){
 	$options = get_option('secritwf_options', array()); //récupère les options créées
     //créer un input de texte
@@ -380,6 +398,29 @@ function secritwf_twitter_maxpost_fct( $args ){
 		?>
 	</p>
 	<?php
+}
+/* Callback pour gérer l'URL de la ressource Twitter */
+function secritwf_twitter_js_fct( $args ){
+	$options = get_option('secritwf_options', array()); //récupère les options créées
+    //crée un input de texte
+	?>
+    <input  type="text" 
+			id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			class="<?php echo esc_attr( $args['class'] ); ?>"
+            data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
+            name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			placeholder="URL de la ressource Javascript du widget"
+			style="width:500px"
+			value="<?php echo isset( $options['secritwf_twitter_js'] ) && $options['secritwf_twitter_js'] != '' ? esc_attr( $options['secritwf_twitter_js'] ) : ''; ?>">
+    </input>
+    <p class="description">
+		<?php
+		
+			echo __( 'Entrez l\'adresse URL du script js à utiliser pour afficher le widget', 'secritwf-plugin' );
+				
+		?>
+    </p>
+    <?php
 }
 
 // Paramètres Linkedin
@@ -415,14 +456,14 @@ function secritwf_linkedin_js_fct( $args ){
 			class="<?php echo esc_attr( $args['class'] ); ?>"
             data-custom="<?php echo esc_attr( $args['secritwf_custom_data'] ); ?>"
             name="secritwf_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-			placeholder="Code Javascript du widget"
+			placeholder="URL de la ressource Javascript du widget"
 			style="width:500px"
 			value="<?php echo isset( $options['secritwf_linkedin_js'] ) && $options['secritwf_linkedin_js'] != '' ? esc_attr( $options['secritwf_linkedin_js'] ) : ''; ?>">
     </input>
     <p class="description">
 		<?php
 		
-			echo __( 'Entrez le code Javascript d\'appel fourni par votre plateforme social media', 'secritwf-plugin' );
+			echo __( 'Entrez l\'adresse URL du script js à utiliser pour afficher le widget', 'secritwf-plugin' );
 				
 		?>
     </p>
