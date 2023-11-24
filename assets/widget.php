@@ -68,7 +68,7 @@ class secritwf_widget extends WP_Widget {
 		unset( $secritwf_child_terms_id_array );
 		unset($secritwf_tempo); 
 		
-		//Si un terme de taxonomie est commun entre la page en front et les enfants du terme parent et qu'une plateforme a été sélectionnée
+		//Si un terme de taxonomie est commun entre la page en front et les enfants du terme parent
 		if( $display_widget === true && isset ( $options['secritwf_rs_plateform'] ) && $options['secritwf_rs_plateform'] != '' ){
 			$this->secritwf_display_the_widget();
 		}
@@ -86,19 +86,19 @@ class secritwf_widget extends WP_Widget {
 		switch ( $options['secritwf_rs_plateform'] ) {
 			
 			case 'X':
+			
 				$twitter_href = 'https://twitter.com/' . $options['secritwf_twitter_slug'] . '?ref_src=twsrc%5Etfw';
 				echo '<a class="twitter-timeline" href="' . $twitter_href . '" data-width="100%" data-lang="fr" data-theme="light" data-tweet-limit="' . $options['secritwf_twitter_maxpost'] . '">';
 				echo 'Tweet de @TransfoNum89';
 				echo '</a>';
-				echo '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
 				
-				break;
+			break;
 			
 			case 'Linkedin':
-				echo $options['secritwf_linkedin_html'];
-				echo $options['secritwf_linkedin_js'];
 				
-				break;
+				echo $options['secritwf_linkedin_html'];
+				
+			break;
 		}
 	}
 
