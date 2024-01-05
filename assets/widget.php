@@ -91,12 +91,16 @@ class secritwf_widget extends WP_Widget {
 				echo '<a class="twitter-timeline" href="' . $twitter_href . '" data-width="100%" data-lang="fr" data-theme="light" data-tweet-limit="' . $options['secritwf_twitter_maxpost'] . '">';
 				echo 'Tweet de @TransfoNum89';
 				echo '</a>';
+
+			        wp_enqueue_script('twitter_widget', $options['secritwf_twitter_js']); //On appelle l'API twitter avec wp_enqueue_script
 				
 			break;
 			
 			case 'Linkedin':
 				
 				echo $options['secritwf_linkedin_html'];
+
+			        wp_enqueue_script('elfsight_widget', $options['secritwf_linkedin_js']); //On appelle l'API linkedin avec wp_enqueue_script
 				
 			break;
 		}
