@@ -23,9 +23,6 @@ class secritwf_widget extends WP_Widget {
 				
 		echo $args['before_widget'];
 		
-		//Affiche le titre si il est défini
-		if ( ! empty( $title ) ) echo $args['before_title'] . $title . $args['after_title'];		
-		
 		$options = get_option( 'secritwf_options', array() ); //on récupère les données de la page d'options
 		
 		//On cherche si la page en front possède une categ (terme de la taxonomie définie en options) en commun avec les paramètres du widget
